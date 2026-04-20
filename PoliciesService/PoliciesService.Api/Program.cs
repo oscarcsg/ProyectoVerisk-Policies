@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using PoliciesService.Infrastructure;
+
 namespace PoliciesService.Api
 {
     public class Program
@@ -12,6 +15,14 @@ namespace PoliciesService.Api
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            // Get connection string from appsettings.json
+            var connectionString = builder.Configuration.GetConnectionString("DeaultConnection");
+
+            // Register the DbContext
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(connectionString)
+            );
 
             var app = builder.Build();
 
