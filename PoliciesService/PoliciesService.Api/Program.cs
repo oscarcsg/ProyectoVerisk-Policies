@@ -1,6 +1,8 @@
 
 using Microsoft.EntityFrameworkCore;
+using PoliciesService.Application.Interfaces;
 using PoliciesService.Infrastructure;
+using Refit;
 
 namespace PoliciesService.Api
 {
@@ -23,6 +25,13 @@ namespace PoliciesService.Api
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(connectionString)
             );
+
+            // Get URL of Reference Data API
+            var referenceDataUrl = builder.Configuration["Services:ReferenceData"];
+
+            // Register Refit
+            builder.Services.AddRefitClient<IReferenceDataClient>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(referenceDataUrl!));
 
             var app = builder.Build();
 

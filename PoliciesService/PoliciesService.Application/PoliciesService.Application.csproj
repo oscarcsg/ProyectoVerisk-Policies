@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Refit" Version="10.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PoliciesService.Domain\PoliciesService.Domain.csproj" />
   </ItemGroup>
 
