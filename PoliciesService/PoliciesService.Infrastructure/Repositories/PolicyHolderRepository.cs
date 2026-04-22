@@ -13,6 +13,26 @@ namespace PoliciesService.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<PolicyHolder?> GetByIdAsync(int id)
+        {
+            return await _context.PolicyHolders
+                .Include(ph => ph.Policies)
+                .FirstOrDefaultAsync(ph => ph.Id == id);
+        }
+
+        public async Task<IEnumerable<PolicyHolder>> GetAllAsync(int page, int pageSize)
+        {
+            return await _context.PolicyHolders
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+        public async Task<bool> EmailExistsAsync(string email)
+        {
+            return await _context.PolicyHolders.AnyAsync(x => x.Email == email);
+        }
+
         public async Task<PolicyHolder> AddAsync(PolicyHolder policyHolder)
         {
             _context.PolicyHolders.Add(policyHolder);
@@ -20,9 +40,27 @@ namespace PoliciesService.Infrastructure.Repositories
             return policyHolder;
         }
 
-        public async Task<bool> EmailExistsAsync(string email)
+        public async Task<PolicyHolder> UpdateAsync(PolicyHolder policyHolder)
         {
-            return await _context.PolicyHolders.AnyAsync(x => x.Email == email);
+            _context.PolicyHolders.Update(policyHolder);
+            await _context.SaveChangesAsync();
+            return policyHolder;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var holder = await _context.PolicyHolders.FindAsync(id);
+            if (holder == null) return false;
+
+            _context.PolicyHolders.Remove(holder);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> HasActivePoliciesAsync(int policyHolderId)
+        {
+            return await _context.Policies
+                .AnyAsync(p => p.PolicyHolderId == policyHolderId && p.Status == "ACTIVE");
         }
     }
 }

@@ -4,6 +4,10 @@ namespace PoliciesService.Application.Services
 {
     public interface IPolicyHolderService
     {
+        Task<Result<PolicyHolderResponseDTO>> GetByIdAsync(int id);
+        Task<Result<IEnumerable<PolicyHolderResponseDTO>>> GetAllAsync(int page, int pageSize);
         Task<Result<PolicyHolderResponseDTO>> CreatePolicyHolderAsync(PolicyHolderRequestDTO dto);
+        Task<Result<PolicyHolderResponseDTO>> UpdatePolicyHolderAsync(int id, PolicyHolderRequestDTO dto);
+        Task<Result<bool>> DeletePolicyHolderAsync(int id);
     }
 }
