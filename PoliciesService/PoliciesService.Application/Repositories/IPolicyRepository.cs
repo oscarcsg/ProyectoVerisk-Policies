@@ -6,7 +6,7 @@ namespace PoliciesService.Application.Repositories
     {
         Task<Policy?> GetByIdAsync(int id);
         Task<Policy?> GetByNumberAsync(string policyNumber);
-        Task<IEnumerable<Policy>> GetAllAsync(string? status, string? policyTypeCode, int page, int pageSize);
+        Task<(IEnumerable<Policy> Items, int TotalCount)> GetAllAsync(string? status, string? policyTypeCode, int page, int pageSize);
         Task<Policy> AddAsync(Policy policy);
         Task<Policy> UpdateAsync(Policy policy);
         Task<bool> DeleteAsync(int id);

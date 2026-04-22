@@ -7,7 +7,7 @@ namespace PoliciesService.Application.Services
     {
         Task<Result<PolicyResponseDTO>> GetByIdAsync(int id);
         Task<Result<PolicyResponseDTO>> GetByNumberAsync(string policyNumber);
-        Task<Result<IEnumerable<PolicyResponseDTO>>> GetAllAsync(string? status, string? policyTypeCode, int page, int pageSize);
+        Task<Result<PagedResult<PolicyResponseDTO>>> GetAllAsync(string? status, string? policyTypeCode, int page, int pageSize);
         Task<Result<PolicyResponseDTO>> CreatePolicyAsync(PolicyRequestDTO dto);
         Task<Result<PolicyResponseDTO>> UpdatePolicyAsync(int id, PolicyRequestDTO dto);
         Task<Result<bool>> DeletePolicyAsync(int id);

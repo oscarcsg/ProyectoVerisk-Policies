@@ -29,8 +29,7 @@ namespace PoliciesService.Api.Controllers
             [FromQuery] int pageSize = 20)
         {
             var result = await _service.GetAllAsync(status, policyTypeCode, page, pageSize);
-            var totalCount = result.Data?.Count() ?? 0;
-            return Ok(PaginatedResponse<PolicyResponseDTO>.Create(result.Data!, page, pageSize, totalCount));
+            return Ok(PaginatedResponse<PolicyResponseDTO>.Create(result.Data!, page, pageSize, result.Data.TotalCount));
         }
 
         // Get by id (GET /api/v1/policies/{id})

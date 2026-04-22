@@ -20,12 +20,16 @@ namespace PoliciesService.Infrastructure.Repositories
                 .FirstOrDefaultAsync(ph => ph.Id == id);
         }
 
-        public async Task<IEnumerable<PolicyHolder>> GetAllAsync(int page, int pageSize)
+        public async Task<(IEnumerable<PolicyHolder> Items, int TotalCount)> GetAllAsync(int page, int pageSize)
         {
-            return await _context.PolicyHolders
+            var totalCount = await _context.PolicyHolders.CountAsync();
+
+            var items = await _context.PolicyHolders
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+
+            return (items, totalCount);
         }
 
         public async Task<bool> EmailExistsAsync(string email)

@@ -33,10 +33,11 @@ namespace PoliciesService.Application.Services
             return Result<PolicyResponseDTO>.Success(MapToResponseDto(policy));
         }
 
-        public async Task<Result<IEnumerable<PolicyResponseDTO>>> GetAllAsync(string? status, string? policyTypeCode, int page, int pageSize)
+        public async Task<Result<PagedResult<PolicyResponseDTO>>> GetAllAsync(string? status, string? policyTypeCode, int page, int pageSize)
         {
-            var policies = await _repository.GetAllAsync(status, policyTypeCode, page, pageSize);
-            return Result<IEnumerable<PolicyResponseDTO>>.Success(policies.Select(MapToResponseDto));
+            var (items, totalCount) = await _repository.GetAllAsync(status, policyTypeCode, page, pageSize);
+            var dtos = items.Select(MapToResponseDto);
+            return Result<PagedResult<PolicyResponseDTO>>.Success(new PagedResult<PolicyResponseDTO>(dtos, totalCount));
         }
 
         public async Task<Result<PolicyResponseDTO>> CreatePolicyAsync(PolicyRequestDTO dto)

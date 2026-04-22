@@ -26,7 +26,7 @@ namespace PoliciesService.Infrastructure.Repositories
                 .FirstOrDefaultAsync(p => p.PolicyNumber == policyNumber);
         }
 
-        public async Task<IEnumerable<Policy>> GetAllAsync(string? status, string? policyTypeCode, int page, int pageSize)
+        public async Task<(IEnumerable<Policy> Items, int TotalCount)> GetAllAsync(string? status, string? policyTypeCode, int page, int pageSize)
         {
             var query = _context.Policies.AsQueryable();
 
@@ -36,10 +36,14 @@ namespace PoliciesService.Infrastructure.Repositories
             if (!string.IsNullOrEmpty(policyTypeCode))
                 query = query.Where(p => p.PolicyTypeCode == policyTypeCode);
 
-            return await query
+            var totalCount = await query.CountAsync();
+
+            var items = await query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+
+            return (items, totalCount);
         }
 
         public async Task<Policy> AddAsync(Policy policy)

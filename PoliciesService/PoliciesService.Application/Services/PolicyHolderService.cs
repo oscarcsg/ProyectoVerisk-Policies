@@ -25,10 +25,11 @@ namespace PoliciesService.Application.Services
             return Result<PolicyHolderResponseDTO>.Success(MapToResponseDto(holder));
         }
 
-        public async Task<Result<IEnumerable<PolicyHolderResponseDTO>>> GetAllAsync(int page, int pageSize)
+        public async Task<Result<PagedResult<PolicyHolderResponseDTO>>> GetAllAsync(int page, int pageSize)
         {
-            var holders = await _repository.GetAllAsync(page, pageSize);
-            return Result<IEnumerable<PolicyHolderResponseDTO>>.Success(holders.Select(MapToResponseDto));
+            var (items, totalCount) = await _repository.GetAllAsync(page, pageSize);
+            var dtos = items.Select(MapToResponseDto);
+            return Result<PagedResult<PolicyHolderResponseDTO>>.Success(new PagedResult<PolicyHolderResponseDTO>(dtos, totalCount));
         }
 
         public async Task<Result<PolicyHolderResponseDTO>> CreatePolicyHolderAsync(PolicyHolderRequestDTO dto)
