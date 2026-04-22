@@ -92,7 +92,7 @@ namespace PoliciesService.Application.Services
                     return Result<bool>.Failure("Reference Data service error while fetching regions.");
                 }
 
-                var regions = regionsResponse.Content;
+                var regions = regionsResponse.Content?.Data;
                 if (regions == null || !regions.Any(r => r.Code == dto.RegionCode))
                 {
                     return Result<bool>.Failure($"Invalid RegionCode: {dto.RegionCode}");

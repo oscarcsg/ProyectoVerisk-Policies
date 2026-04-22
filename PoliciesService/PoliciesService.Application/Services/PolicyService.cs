@@ -111,30 +111,16 @@ namespace PoliciesService.Application.Services
             {
                 // Validate PolicyTypeCode exists and is active
                 var ptResponse = await _referenceDataClient.GetPolicyTypeAsync(dto.PolicyTypeCode);
-                if (!ptResponse.IsSuccessStatusCode)
+                if (ptResponse.Content?.Data == null || !ptResponse.Content.Data.IsActive)
                 {
-                    return Result<bool>.Failure(ptResponse.StatusCode == System.Net.HttpStatusCode.NotFound
-                        ? $"Policy type '{dto.PolicyTypeCode}' not found."
-                        : "Reference Data service error.");
-                }
-
-                if (ptResponse.Content?.Status != "ACTIVE")
-                {
-                    return Result<bool>.Failure($"Policy type '{dto.PolicyTypeCode}' is not active.");
+                    return Result<bool>.Failure($"Policy type '{dto.PolicyTypeCode}' is not active or not found.");
                 }
 
                 // Validate CoverageTypeCode exists and is active
                 var ctResponse = await _referenceDataClient.GetCoverageTypeAsync(dto.CoverageTypeCode);
-                if (!ctResponse.IsSuccessStatusCode)
+                if (ctResponse.Content?.Data == null || !ctResponse.Content.Data.IsActive)
                 {
-                    return Result<bool>.Failure(ctResponse.StatusCode == System.Net.HttpStatusCode.NotFound
-                        ? $"Coverage type '{dto.CoverageTypeCode}' not found."
-                        : "Reference Data service error.");
-                }
-
-                if (ctResponse.Content?.Status != "ACTIVE")
-                {
-                    return Result<bool>.Failure($"Coverage type '{dto.CoverageTypeCode}' is not active.");
+                    return Result<bool>.Failure($"Coverage type '{dto.CoverageTypeCode}' is not active or not found.");
                 }
 
                 return Result<bool>.Success(true);

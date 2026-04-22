@@ -6,6 +6,7 @@ using PoliciesService.Application.Services;
 using PoliciesService.Infrastructure;
 using PoliciesService.Infrastructure.Repositories;
 using Refit;
+using Scalar.AspNetCore;
 
 namespace PoliciesService.Api
 {
@@ -60,6 +61,7 @@ namespace PoliciesService.Api
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.MapScalarApiReference();
             }
 
             app.UseHttpsRedirection();

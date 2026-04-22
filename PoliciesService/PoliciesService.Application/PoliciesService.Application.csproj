@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Refit" Version="10.1.6" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Refit" Version="10.1.6" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PoliciesService.Domain\PoliciesService.Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\PoliciesService.Domain\PoliciesService.Domain.csproj" />
+	</ItemGroup>
 
 </Project>
