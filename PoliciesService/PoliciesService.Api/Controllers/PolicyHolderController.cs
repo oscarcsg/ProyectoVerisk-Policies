@@ -25,7 +25,7 @@ namespace PoliciesService.Api.Controllers
         public async Task<IActionResult> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
             var result = await _service.GetAllAsync(page, pageSize);
-            return Ok(PaginatedResponse<PolicyHolderResponseDTO>.Create(result.Data!, page, pageSize, result.Data.TotalCount));
+            return Ok(PaginatedResponse<PolicyHolderResponseDTO>.Create(result.Data!.Items, page, pageSize, result.Data.TotalCount));
         }
 
         // Get by ID, includes policies (GET /api/v1/policy-holders/{id})
