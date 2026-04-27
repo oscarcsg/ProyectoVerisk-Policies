@@ -1,3 +1,4 @@
+// PoliciesService\PoliciesService.Tests\TestHelpers\MockDataGenerator.cs
 using Bogus;
 using PoliciesService.Application.DTOs.Policy;
 using PoliciesService.Application.DTOs.PolicyHolder;
@@ -10,7 +11,7 @@ namespace PoliciesService.Tests.TestHelpers
         public static List<PolicyHolder> GeneratePolicyHolders(int count)
         {
             var faker = new Faker<PolicyHolder>()
-                .RuleFor(h => h.Id, f => f.IndexGlobal)
+                //.RuleFor(h => h.Id, f => f.IndexGlobal)
                 .RuleFor(h => h.FirstName, f => f.Name.FirstName())
                 .RuleFor(h => h.LastName, f => f.Name.LastName())
                 .RuleFor(h => h.Email, f => f.Internet.Email())
@@ -24,7 +25,7 @@ namespace PoliciesService.Tests.TestHelpers
         public static List<Policy> GeneratePolicies(int count, int policyHolderId)
         {
             var faker = new Faker<Policy>()
-                .RuleFor(p => p.Id, f => f.IndexGlobal)
+                //.RuleFor(p => p.Id, f => f.IndexGlobal)
                 .RuleFor(p => p.PolicyNumber, f => f.Random.AlphaNumeric(10).ToUpper())
                 .RuleFor(p => p.PolicyHolderId, policyHolderId)
                 .RuleFor(p => p.PolicyTypeCode, "AUTO")

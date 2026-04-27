@@ -1,3 +1,4 @@
+// PoliciesService\PoliciesService.Tests\Controllers\PolicyHolderControllerTests.cs
 using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
@@ -47,7 +48,7 @@ namespace PoliciesService.Tests.Controllers
         public async Task GetAll_ReturnsPaginatedHolders()
         {
             // Arrange
-            var holders = MockDataGenerator.GeneratePolicyHolders(5);
+            var holders = MockDataGenerator.GeneratePolicyHolders(2010);
             await SeedDatabaseAsync(async db =>
             {
                 db.PolicyHolders.AddRange(holders);
@@ -55,7 +56,7 @@ namespace PoliciesService.Tests.Controllers
             });
 
             // Act
-            var response = await _client.GetAsync("/api/v1/policy-holders?page=1&pageSize=10");
+            var response = await _client.GetAsync("/api/v1/policy-holders?page=1&pageSize=20");
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);

@@ -1,3 +1,4 @@
+// PoliciesService\PoliciesService.Tests\PolicyApiFactory.cs
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -14,22 +15,23 @@ namespace PoliciesService.Tests
     {
         private readonly string _dbName = Guid.NewGuid().ToString();
         public Mock<IReferenceDataClient> ReferenceDataClientMock { get; } = new();
+        private const string URL = "http://localhost";
 
         public PolicyApiFactory()
         {
-            Environment.SetEnvironmentVariable("Services__ReferenceData", "http://localhost");
+            Environment.SetEnvironmentVariable("Services__ReferenceData", URL);
         }
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.UseSetting("Services:ReferenceData", "http://localhost");
+            builder.UseSetting("Services:ReferenceData", URL);
             builder.ConfigureServices(services =>
             {
                 // Remove existing AppDbContext options
                 services.RemoveAll(typeof(DbContextOptions<AppDbContext>));
                 services.RemoveAll(typeof(DbContextOptions));
                 services.RemoveAll(typeof(System.Data.Common.DbConnection));
-
+                    
                 // Add in-memory database
                 services.AddScoped<DbContextOptions<AppDbContext>>(provider =>
                 {
