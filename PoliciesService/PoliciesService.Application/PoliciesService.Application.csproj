@@ -7,7 +7,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.15" />
 		<PackageReference Include="Refit" Version="10.1.6" />
+		<PackageReference Include="Scalar.AspNetCore" Version="2.14.9" />
 	</ItemGroup>
 
 	<ItemGroup>
