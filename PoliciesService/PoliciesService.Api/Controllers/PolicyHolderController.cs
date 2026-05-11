@@ -32,11 +32,11 @@ namespace PoliciesService.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var result = await _service.GetByIdAsync(id);
+            var result = await _service.GetDetailByIdAsync(id);
             if (!result.IsSuccess)
                 return NotFound(ApiResponse<object>.Error(result.ErrorMessage!));
 
-            return Ok(ApiResponse<PolicyHolderResponseDTO>.Success(result.Data!));
+            return Ok(ApiResponse<PolicyHolderDetailResponseDTO>.Success(result.Data!));
         }
         #endregion
 

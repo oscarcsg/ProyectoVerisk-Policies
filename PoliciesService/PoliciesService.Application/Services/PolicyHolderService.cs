@@ -1,4 +1,5 @@
 ﻿using PoliciesService.Application.Common;
+using PoliciesService.Application.DTOs.Policy;
 using PoliciesService.Application.DTOs.PolicyHolder;
 using PoliciesService.Application.Interfaces;
 using PoliciesService.Application.Repositories;
@@ -23,6 +24,46 @@ namespace PoliciesService.Application.Services
             if (holder == null) return Result<PolicyHolderResponseDTO>.Failure("Policy holder not found.");
 
             return Result<PolicyHolderResponseDTO>.Success(MapToResponseDto(holder));
+        }
+
+        public async Task<Result<PolicyHolderDetailResponseDTO>> GetDetailByIdAsync(int id)
+        {
+            var holder = await _repository.GetDetailByIdAsync(id);
+
+            if (holder == null)
+                return Result<PolicyHolderDetailResponseDTO>.Failure("Policy holder not found");
+
+            var dto = new PolicyHolderDetailResponseDTO
+            {
+                Id = holder.Id,
+                FirstName = holder.FirstName,
+                LastName = holder.LastName,
+                Email = holder.Email,
+                Phone = holder.Phone,
+                DateOfBirth = holder.DateOfBirth,
+                RegionCode = holder.RegionCode,
+                CreatedAt = holder.CreatedAt,
+                UpdatedAt = holder.UpdatedAt,
+
+                // 3. Mapeamos la lista de pólizas
+                Policies = holder.Policies?.Select(p => new PolicyResponseDTO
+                {
+                    Id = p.Id,
+                    PolicyNumber = p.PolicyNumber,
+                    PolicyHolderId = p.PolicyHolderId,
+                    PolicyTypeCode = p.PolicyTypeCode,
+                    CoverageTypeCode = p.CoverageTypeCode,
+                    CoverageAmount = p.CoverageAmount,
+                    PremiumAmount = p.PremiumAmount,
+                    StartDate = p.StartDate,
+                    EndDate = p.EndDate,
+                    Status = p.Status,
+                    CreatedAt = p.CreatedAt,
+                    UpdatedAt = p.UpdatedAt
+                }).ToList() ?? new List<PolicyResponseDTO>()
+            };
+
+            return Result<PolicyHolderDetailResponseDTO>.Success(dto);
         }
 
         public async Task<Result<PagedResult<PolicyHolderResponseDTO>>> GetAllAsync(int page, int pageSize)

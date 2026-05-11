@@ -16,8 +16,21 @@ namespace PoliciesService.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Policy name for CORS
+            var CORSRules = "_corsRules";
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: CORSRules,
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:4200", "http://localhost:4201", "http://localhost:4202", "http://localhost:4203")
+                            .AllowAnyHeader()  // Allows any header (Authorization or Content-Type)
+                            .AllowAnyMethod(); // Allows any API REST method (GET, POST, etc)
+                    });
+            });
+
+            // Add services to the container.
             builder.Services.AddControllers();
 
             // Add API versioning
@@ -56,6 +69,9 @@ namespace PoliciesService.Api
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(referenceDataUrl!));
 
             var app = builder.Build();
+
+            // Activate the CORS middleware
+            app.UseCors(CORSRules);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

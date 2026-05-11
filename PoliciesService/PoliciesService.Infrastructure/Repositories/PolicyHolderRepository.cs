@@ -20,6 +20,13 @@ namespace PoliciesService.Infrastructure.Repositories
                 .FirstOrDefaultAsync(ph => ph.Id == id);
         }
 
+        public async Task<PolicyHolder?> GetDetailByIdAsync(int id)
+        {
+            return await _context.PolicyHolders
+                .Include(ph => ph.Policies)
+                .FirstOrDefaultAsync(ph => ph.Id == id);
+        }
+
         public async Task<(IEnumerable<PolicyHolder> Items, int TotalCount)> GetAllAsync(int page, int pageSize)
         {
             var totalCount = await _context.PolicyHolders.CountAsync();
@@ -63,6 +70,7 @@ namespace PoliciesService.Infrastructure.Repositories
 
         public async Task<bool> HasActivePoliciesAsync(int policyHolderId)
         {
+            //Console.WriteLine($"\n\n\nPolicy holder id: {policyHolderId}\n\n\n");
             return await _context.Policies
                 .AnyAsync(p => p.PolicyHolderId == policyHolderId && p.Status == "ACTIVE");
         }
