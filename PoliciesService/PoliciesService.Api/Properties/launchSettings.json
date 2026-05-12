@@ -1,7 +1,7 @@
 ﻿{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "http": {
+    "Policies API (http)": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,

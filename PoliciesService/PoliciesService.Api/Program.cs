@@ -16,6 +16,8 @@ namespace PoliciesService.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            Console.Title = "Policies API";
+
             // Policy name for CORS
             var CORSRules = "_corsRules";
 
